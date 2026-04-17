@@ -12,7 +12,6 @@ class VideoData:
 
     @classmethod
     def from_csv_row(cls, row) -> "VideoData":
-        print(row)
         return cls(
             title=row["title"],
             ctr=float(row["ctr"]),

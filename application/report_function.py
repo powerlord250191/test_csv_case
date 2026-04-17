@@ -26,8 +26,13 @@ class Report(ABC):
 class ClickbaitReport(Report):
 
     def filter_videos(self, videos: list[VideoData]) -> list[VideoData]:
+        new_videos = []
+        for video_list in videos:
+            for video in video_list:
+                new_videos.append(video)
+
         filtered_videos = [
-            video for video in videos
+            video for video in new_videos
             if video.ctr > 15 and video.retention_rate < 40
         ]
 
