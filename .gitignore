@@ -30,3 +30,4 @@ htmlcov/
 .DS_Store
 Thumbs.db
 EOF
+/cli_metrics_video.egg-info

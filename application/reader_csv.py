@@ -31,9 +31,12 @@ class CSVReader:
                 try:
                     data = VideoData.from_csv_row(row)
                     videos.append(data)
-                except (KeyError, ValueError) as ex:
-                    print(f"Во время чтения данных в строке {row} произошла ошибка - {ex}")
-                    continue
+                except KeyError as ex:
+                    raise KeyError(f"Во время чтения данных в строке {row} произошла ошибка в месте - {ex}")
+                except ValueError as ex:
+                    raise ValueError(f"Во время чтения данных в строке {row} произошла ошибка в месте - {ex}")
+                except UnicodeDecodeError as ex:
+                    raise UnicodeDecodeError(f"Во время чтения данных в строке {row} произошла ошибка в месте - {ex}")
         return videos
 
     @staticmethod
