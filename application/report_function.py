@@ -32,7 +32,8 @@ class ClickbaitReport(Report):
                 new_videos.append(video)
 
         filtered_videos = [
-            video for video in new_videos
+            video
+            for video in new_videos
             if video.ctr > 15 and video.retention_rate < 40
         ]
 
@@ -51,6 +52,7 @@ class ClickbaitReport(Report):
     @property
     def name(self) -> str:
         return "Clickbait"
+
 
 class ReportFactory:
 

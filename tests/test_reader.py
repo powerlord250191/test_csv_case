@@ -1,5 +1,7 @@
-import pytest
 from pathlib import Path
+
+import pytest
+
 from application.reader_csv import CSVReader
 
 
@@ -16,7 +18,7 @@ def sample_csv_path(tmp_path: Path) -> str:
 
 def test_read_file_success(sample_csv_path: Path) -> None:
     reader = CSVReader()
-    videos = reader.read_file(sample_csv_path)
+    videos = reader.read_file(str(sample_csv_path))
 
     assert len(videos) == 2
     assert videos[0].title == "Тест1"
@@ -42,7 +44,10 @@ def test_read_file_no_csv() -> None:
     with pytest.raises(ValueError) as exc:
         reader.read_file("test_data.txt")
 
-    assert str(exc.value) == "Неверный тип файла test_data.txt, ожидается файл с расширением '.csv'"
+    assert (
+        str(exc.value)
+        == "Неверный тип файла test_data.txt, ожидается файл с расширением '.csv'"
+    )
 
 
 def test_read_empty_file(tmp_path: Path) -> None:
@@ -73,7 +78,7 @@ def test_uncorrected_data_in_file(tmp_path: Path) -> None:
 
     assert "Во время чтения данных в строке" in str(exc.value)
 
-    uncorrected_test_data ="""
+    uncorrected_test_data = """
             Заголовок,ctr,retention_rate,views,likes,avg_watch_time
             Тест1,15.5,35,1000,100,5.2
             Тест2,10.0,80,2000,200,8.1
@@ -87,7 +92,7 @@ def test_uncorrected_data_in_file(tmp_path: Path) -> None:
 
     assert "Во время чтения данных в строке" in str(exc.value)
 
-    uncorrected_test_data ="""Заголовок,ctr,retention_rate,views,likes,avg_watch_time
+    uncorrected_test_data = """Заголовок,ctr,retention_rate,views,likes,avg_watch_time
             Тест1,15.5,35,
             Тест2,10.0,80,2000,
             """

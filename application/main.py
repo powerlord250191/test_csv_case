@@ -1,5 +1,6 @@
+from argparse import ArgumentParser, Namespace
+
 from tabulate import tabulate
-from argparse import Namespace, ArgumentParser
 
 from application.reader_csv import CSVReader
 from application.report_function import ReportFactory
@@ -14,7 +15,8 @@ def parse_arguments() -> Namespace:
         "--files",
         nargs="+",
         required=True,
-        help="Пути к CSV файлам с данными для анализа, допустимо указать несколько путей",
+        help="Пути к CSV файлам с данными для анализа,"
+        " допустимо указать несколько путей",
     )
 
     parser.add_argument(
@@ -26,6 +28,7 @@ def parse_arguments() -> Namespace:
     )
 
     return parser.parse_args()
+
 
 def main():
 
@@ -55,5 +58,5 @@ def main():
         print("Видео соответствующих критериям отчёта не найдено")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

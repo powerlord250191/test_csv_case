@@ -1,5 +1,4 @@
-from setuptools import setup, find_packages
-
+from setuptools import find_packages, setup
 
 setup(
     name="cli_metrics_video",
@@ -9,7 +8,7 @@ setup(
         "tabulate>=0.9.0",
     ],
     entry_points={
-        "console_scripts":[
+        "console_scripts": [
             "youtube-metrics=application.main:main",
         ],
     },

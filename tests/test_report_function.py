@@ -1,17 +1,22 @@
 import pytest
+
 from application.models import VideoData
 from application.report_function import ClickbaitReport, ReportFactory
 
 
 @pytest.fixture
 def sample_videos():
-    return [[
-        VideoData("Test video 1", 18.2, 35, 45200, 1240, 4.2),
-        VideoData("Test video 2", 22.5, 28, 128700, 3150, 3.1),
-        VideoData("Test video 3", 9.5, 82, 31500, 890, 8.9)],
-        [VideoData("Test video 4", 25.0, 22, 254000, 8900, 2.5),
-        VideoData("Test video 5", 19.0, 38, 87600, 2100, 4.5),
-    ]]
+    return [
+        [
+            VideoData("Test video 1", 18.2, 35, 45200, 1240, 4.2),
+            VideoData("Test video 2", 22.5, 28, 128700, 3150, 3.1),
+            VideoData("Test video 3", 9.5, 82, 31500, 890, 8.9),
+        ],
+        [
+            VideoData("Test video 4", 25.0, 22, 254000, 8900, 2.5),
+            VideoData("Test video 5", 19.0, 38, 87600, 2100, 4.5),
+        ],
+    ]
 
 
 def test_clickbait_filter(sample_videos):
@@ -21,6 +26,25 @@ def test_clickbait_filter(sample_videos):
     assert len(filtered_videos) == 4
     assert all(video.ctr > 15 for video in filtered_videos)
     assert all(video.retention_rate < 40 for video in filtered_videos)
+
+
+def test_get_headers(sample_videos):
+    report = ClickbaitReport()
+    headers = report.get_headers()
+
+    assert headers == ["title", "ctr", "retention_rate"]
+
+
+def test_format_row(sample_videos):
+    report = ClickbaitReport()
+    video = sample_videos[0][0]
+    format_video = report.format_row(video)
+
+    assert format_video == [
+        "Test video 1",
+        18.2,
+        35,
+    ]
 
 
 def test_clickbait_sorting(sample_videos):
@@ -38,4 +62,3 @@ def test_report_factory():
 
     with pytest.raises(ValueError):
         ReportFactory.get_report("test_report")
-
